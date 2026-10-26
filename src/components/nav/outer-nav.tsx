@@ -33,7 +33,7 @@ export function OuterNav({ navItems, right, children, className }: OuterNavProps
         <header className={twMerge("sticky top-0 w-full h-16 sm:h-20 z-20 bg-background", className)}>
             <div className="flex items-stretch h-full w-full px-4 gap-4">
                 <Link to="/" className="shrink-0 flex items-center gap-2 text-text hover:text-primary transition-colors">
-                    <ClefLogo className="h-9 sm:h-11" />
+                    <ClefLogo className="h-6 sm:h-8" />
                     <span className="text-xl sm:text-2xl font-semibold tracking-tight">Monteverdi</span>
                 </Link>
                 <div className="flex-1 flex h-full items-stretch justify-between gap-4">

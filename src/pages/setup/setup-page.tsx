@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
+import { Button } from '@ui'
 import { useStatus } from '../../lib/status-context'
 import { ClaudeAccountField } from './claude-account-field'
 import { ProjectFolderField } from './project-folder-field'
@@ -10,6 +11,7 @@ import { ProjectFolderField } from './project-folder-field'
  */
 export function SetupPage() {
   const { status, error } = useStatus()
+  const navigate = useNavigate()
 
   return (
     <div className="max-w-3xl mx-auto p-4 sm:p-8 flex flex-col gap-6">
@@ -27,12 +29,10 @@ export function SetupPage() {
       <ClaudeAccountField />
       <ProjectFolderField />
 
-      {status?.ready && (
-        <Link to="/" className="self-end flex items-center gap-2 text-primary font-medium hover:underline">
-          Continue
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      )}
+      <Button scheme="primary" disabled={!status?.ready} onClick={() => navigate('/')} className="self-start gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+        Continue
+        <ArrowRight className="h-4 w-4" />
+      </Button>
     </div>
   )
 }
