@@ -1,4 +1,4 @@
-import type { FolderListing, Status } from '../../shared/api-types'
+import type { Status } from '../../shared/api-types'
 
 async function request<T>(method: string, url: string, body?: unknown): Promise<T> {
   const res = await fetch(url, {
@@ -16,7 +16,7 @@ export const api = {
   status: () => request<Status>('GET', '/api/status'),
   login: () => request<{ started: boolean }>('POST', '/api/auth/login'),
   logout: () => request<Status>('POST', '/api/auth/logout'),
-  folders: (path?: string) =>
-    request<FolderListing>('GET', path === undefined ? '/api/folders' : `/api/folders?path=${encodeURIComponent(path)}`),
   setProject: (dir: string) => request<Status>('PUT', '/api/project', { dir }),
+  /** Opens the OS folder dialog; the returned status is unchanged if it was cancelled. */
+  pickProject: () => request<Status>('POST', '/api/project/pick'),
 }

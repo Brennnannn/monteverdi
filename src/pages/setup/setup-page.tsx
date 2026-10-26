@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { useStatus } from '../../lib/status-context'
-import { CliAuthCard } from './cli-auth-card'
-import { ProjectFolderCard } from './project-folder-card'
+import { ClaudeAccountField } from './claude-account-field'
+import { ProjectFolderField } from './project-folder-field'
 
 /**
  * Settings and first-run setup. Reached from the settings button, or by redirect whenever
- * something Monteverdi needs (CLI sign-in, project folder) is missing.
+ * something Monteverdi needs (Claude sign-in, project folder) is missing.
  */
 export function SetupPage() {
   const { status, error } = useStatus()
@@ -24,8 +24,8 @@ export function SetupPage() {
 
       {error && <p className="text-sm text-error">Couldn't reach the local API: {error}</p>}
 
-      <CliAuthCard />
-      <ProjectFolderCard />
+      <ClaudeAccountField />
+      <ProjectFolderField />
 
       {status?.ready && (
         <Link to="/" className="self-end flex items-center gap-2 text-primary font-medium hover:underline">

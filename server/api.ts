@@ -2,8 +2,8 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { Plugin } from 'vite'
 import type { Status } from '../shared/api-types'
 import { authStatus, cliVersion, findClaudeCli, logout, startLogin } from './claude-cli'
-import { hasEnvFile, isDirectory, readConfig, writeConfig } from './config'
-import { listFolders } from './folders'
+import { hasEnvFile, isDirectory, readConfig, setProjectDir } from './config'
+import { pickFolder } from './pick-folder'
 
 function send(res: ServerResponse, status: number, body: unknown) {
   res.statusCode = status
@@ -20,7 +20,7 @@ async function readJson<T>(req: IncomingMessage): Promise<T> {
 async function status(): Promise<Status> {
   const bin = await findClaudeCli()
   const [version, auth] = bin ? await Promise.all([cliVersion(bin), authStatus(bin)]) : [null, null]
-  const { projectDir } = readConfig()
+  const { projectDir, recentDirs = [] } = readConfig()
   const project = projectDir
     ? { dir: projectDir, exists: isDirectory(projectDir), hasEnv: hasEnvFile(projectDir) }
     : null
@@ -29,6 +29,7 @@ async function status(): Promise<Status> {
     cli: { path: bin, version },
     auth,
     project,
+    recentDirs: recentDirs.filter(isDirectory),
     ready: Boolean(auth?.loggedIn && project?.exists),
   }
 }
@@ -55,13 +56,16 @@ async function handle(req: IncomingMessage, res: ServerResponse) {
       return send(res, 200, await status())
     }
 
-    case 'GET /api/folders':
-      return send(res, 200, await listFolders(url.searchParams.get('path') ?? undefined))
-
     case 'PUT /api/project': {
       const { dir } = await readJson<{ dir?: string }>(req)
-      if (!dir || !isDirectory(dir)) return send(res, 400, { error: 'Not a folder' })
-      writeConfig({ ...readConfig(), projectDir: dir })
+      if (!dir || !isDirectory(dir)) return send(res, 400, { error: 'Folder not found' })
+      setProjectDir(dir)
+      return send(res, 200, await status())
+    }
+
+    case 'POST /api/project/pick': {
+      const dir = await pickFolder(readConfig().projectDir)
+      if (dir) setProjectDir(dir)
       return send(res, 200, await status())
     }
 
