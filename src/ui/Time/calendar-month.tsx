@@ -1,7 +1,7 @@
 import { format, addMonths, isBefore, isAfter, startOfMonth } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button, Card } from '@ui';
-import { useScreenSizeCtx } from "../context/bearContext";
+import { useScreenSizeCtx } from "../context/screen-context";
 import { SIZE } from "../constants";
 
 interface CalendarMonthProps {

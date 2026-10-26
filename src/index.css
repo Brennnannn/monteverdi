@@ -2,11 +2,14 @@
 @source "./ui";
 
 @theme {
-    --color-primary: #0353a4;
-    --color-secondary: #ffb800;
+    --color-primary: #0353A4;
+    --color-secondary: #FFB800;
 
     --color-background: var(--background);
     --color-surface: var(--surface);
+    --color-hover-1: var(--hover-1);
+    --color-hover-2: var(--hover-2);
+    --color-hover-3: var(--hover-3);
     --color-text: var(--text);
     --color-text-muted: var(--text-muted);
     --color-trim: var(--trim);
@@ -14,37 +17,38 @@
     --color-error: #dc2626;
     --color-warning: #d97706;
     --color-success: #16a34a;
+
 }
 
 :root {
-    --background: theme("colors.white");
-    --surface: theme("colors.gray.50");
-    --text: theme("colors.gray.900");
-    --text-muted: theme("colors.gray.500");
-    --trim: theme("colors.gray.200");
+    --background: theme('colors.white');
+    --surface: theme('colors.gray.50');
+    --hover-1: theme('colors.gray.100');
+    --hover-2: theme('colors.gray.200');
+    --hover-3: theme('colors.gray.300');
+    --text: theme('colors.gray.900');
+    --text-muted: theme('colors.gray.500');
+    --trim: theme('colors.gray.200');
     --scrollbar-thumb: var(--trim);
     --scrollbar-track: transparent;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --background: theme("colors.gray.900");
-        --surface: theme("colors.gray.800");
-        --text: theme("colors.white");
-        --text-muted: theme("colors.gray.400");
-        --trim: theme("colors.gray.700");
+        --background: theme('colors.gray.900');
+        --surface: theme('colors.gray.800');
+        --hover-1: theme('colors.gray.800');
+        --hover-2: theme('colors.gray.700');
+        --hover-3: theme('colors.gray.600');
+        --text: theme('colors.white');
+        --text-muted: theme('colors.gray.400');
+        --trim: theme('colors.gray.700');
         --scrollbar-thumb: var(--trim);
         --scrollbar-track: transparent;
     }
 }
 
-html,
-body,
-#app {
-    height: 100%;
-    margin: 0;
-}
-
+/* Custom Scrollbar (global) */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -58,4 +62,26 @@ body,
 ::-webkit-scrollbar-thumb {
     background: var(--scrollbar-thumb);
     border-radius: 9999px;
+}
+
+html {
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    scrollbar-width: thin;
+}
+
+@layer utilities {
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+}
+html,
+body,
+#app {
+    height: 100%;
+    margin: 0;
 }

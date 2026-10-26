@@ -88,7 +88,7 @@ export type FormAction =
  *
  * @example
  * ```tsx
- * const { form, setFormField } = useFormFull<ClientFields>();
+ * const { form, setFormField } = useFormFull<ProjectFields>();
  * setFormField(`notes.${index}.content`, value);
  * ```
  */

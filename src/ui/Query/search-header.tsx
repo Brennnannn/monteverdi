@@ -27,7 +27,7 @@ type SearchHeaderProps = {
  * <SearchHeader
  *   searchQuery={query}
  *   setSearchQuery={setQuery}
- *   title="Clients"
+ *   title="Projects"
  *   onSearch={handleSearch}
  *   minLength={2}
  * />

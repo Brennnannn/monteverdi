@@ -25,7 +25,7 @@ type SequenceProps = {
  * <Sequence
  *   items={[
  *     { label: 'Admin', link: '/admin' },
- *     { label: 'Clients', link: '/admin/clients' },
+ *     { label: 'Projects', link: '/projects' },
  *     { label: 'Alice' },
  *   ]}
  * />

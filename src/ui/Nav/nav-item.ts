@@ -17,7 +17,7 @@ export type NavItemData = NavItemLink | NavItemAction | NavItemNode;
 
 /**
  * @example
- * navLink({ link: "/admin/clients", label: "Clients", icon: <Users /> })
+ * navLink({ link: "/projects", label: "Projects", icon: <Users /> })
  */
 export function navLink(item: Omit<NavItemLink, "type">): NavItemData {
     return { ...item, type: "link" };

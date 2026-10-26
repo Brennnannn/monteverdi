@@ -6,18 +6,18 @@ type ScreenSizeValue = {
     size: number;
 }
 
-type BearProviderProps<TContextValue> = {
+type ContextProviderProps<TContextValue> = {
     value: TContextValue;
     children?: ReactNode;
     context: Context<TContextValue | null>;
 }
 
-type BearSizeProviderProps = {
+type ScreenSizeProviderProps = {
     size: number;
     children: ReactNode;
 }
 
-type BearHeaderBumpProviderProps = {
+type HeaderBumpProviderProps = {
     headerBump: string;
     children: ReactNode;
 }
@@ -27,7 +27,7 @@ const headerBumpContext = createContext<string | null>(null)
 
 /**
  * Generic context wrapper — mounts `context.Provider` with `value`. Use the specialized
- * `BearSizeProvider` and `BearHeaderBumpProvider` helpers instead of this directly in most cases.
+ * `ScreenSizeProvider` and `HeaderBumpProvider` helpers instead of this directly in most cases.
  *
  * @param {TContextValue} value - Value to publish into the context
  * @param {React.ReactNode} children - Components that consume the context
@@ -35,29 +35,29 @@ const headerBumpContext = createContext<string | null>(null)
  *
  * @example
  * ```tsx
- * <BearProvider value={42} context={myContext}>
+ * <ContextProvider value={42} context={myContext}>
  *   <App />
- * </BearProvider>
+ * </ContextProvider>
  * ```
  */
-function BearProvider<TContextValue>({
+function ContextProvider<TContextValue>({
     value,
     children,
     context,
-}: BearProviderProps<TContextValue>) {
+}: ContextProviderProps<TContextValue>) {
     return createElement(context.Provider, { value }, children)
 }
 
 /**
  * Computes the current screen-size tier (`SIZE.BASE`..`SIZE.XXL`) from `window.innerWidth`,
- * updating on resize. Single shared implementation — mount its result into `BearSizeProvider`.
+ * updating on resize. Single shared implementation — mount its result into `ScreenSizeProvider`.
  *
  * @example
  * ```tsx
  * const screenSize = useScreenSize();
- * <BearSizeProvider size={screenSize}>
+ * <ScreenSizeProvider size={screenSize}>
  *   <App />
- * </BearSizeProvider>
+ * </ScreenSizeProvider>
  * ```
  */
 export function useScreenSize(): number {
@@ -89,13 +89,13 @@ export function useScreenSize(): number {
  *
  * @example
  * ```tsx
- * <BearSizeProvider size={screenSize}>
+ * <ScreenSizeProvider size={screenSize}>
  *   <App />
- * </BearSizeProvider>
+ * </ScreenSizeProvider>
  * ```
  */
-export function BearSizeProvider({ size, children }: BearSizeProviderProps) {
-    return createElement(BearProvider<ScreenSizeValue>, {
+export function ScreenSizeProvider({ size, children }: ScreenSizeProviderProps) {
+    return createElement(ContextProvider<ScreenSizeValue>, {
         value: { size },
         context: screenSizeContext,
     }, children)
@@ -110,19 +110,19 @@ export function BearSizeProvider({ size, children }: BearSizeProviderProps) {
  *
  * @example
  * ```tsx
- * <BearHeaderBumpProvider headerBump="ml-14">
+ * <HeaderBumpProvider headerBump="ml-14">
  *   <App />
- * </BearHeaderBumpProvider>
+ * </HeaderBumpProvider>
  * ```
  */
-export function BearHeaderBumpProvider({ headerBump, children }: BearHeaderBumpProviderProps) {
-    return createElement(BearProvider<string>, {
+export function HeaderBumpProvider({ headerBump, children }: HeaderBumpProviderProps) {
+    return createElement(ContextProvider<string>, {
         value: headerBump,
         context: headerBumpContext,
     }, children)
 }
 
-function useBearCtx<TValue>(
+function useContextValue<TValue>(
     context: Context<TValue | null>,
     errorMessage: string,
     optional = false,
@@ -143,7 +143,7 @@ function useBearCtx<TValue>(
 
 /**
  * Returns the current screen size as `{ size: number }` from context.
- * Throws if called outside a `BearSizeProvider`.
+ * Throws if called outside a `ScreenSizeProvider`.
  *
  * @example
  * ```ts
@@ -151,7 +151,7 @@ function useBearCtx<TValue>(
  * ```
  */
 export function useScreenSizeCtx() {
-    return useBearCtx(screenSizeContext, 'Component requires screen size context')
+    return useContextValue(screenSizeContext, 'Component requires screen size context')
 }
 
 /**
@@ -166,5 +166,5 @@ export function useScreenSizeCtx() {
  * ```
  */
 export function useHeaderBumpCtx(optional = false) {
-    return useBearCtx(headerBumpContext, 'Component requires header bump context', optional, '')
+    return useContextValue(headerBumpContext, 'Component requires header bump context', optional, '')
 }

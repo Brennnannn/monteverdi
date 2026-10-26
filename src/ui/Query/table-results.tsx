@@ -93,9 +93,9 @@ interface TableRowProps {
  *
  * @example
  * ```tsx
- * <TableRow onClick={() => navigate(`/clients/${id}`)}>
- *   <span>{client.name}</span>
- *   <span>{client.dob}</span>
+ * <TableRow onClick={() => navigate(`/projects/${id}`)}>
+ *   <span>{project.name}</span>
+ *   <span>{project.path}</span>
  * </TableRow>
  * ```
  */

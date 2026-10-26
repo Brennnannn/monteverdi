@@ -27,8 +27,8 @@ type NoteFullProps = {
  * the note be maximized (Escape minimizes).
  *
  * @example
- * <NoteFull title="Session Notes" icons={[<NoteVisibleIcon key="v" />]} content={notes} updateContent={setNotes} />
- * <NoteFull title="Session Notes" markdown expanded={open} onToggleExpand={() => setOpen(!open)} content={notes} updateContent={setNotes} />
+ * <NoteFull title="Notes" icons={[<NoteVisibleIcon key="v" />]} content={notes} updateContent={setNotes} />
+ * <NoteFull title="Notes" markdown expanded={open} onToggleExpand={() => setOpen(!open)} content={notes} updateContent={setNotes} />
  */
 export function NoteFull({
     title,

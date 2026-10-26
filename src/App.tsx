@@ -1,13 +1,28 @@
-import { Button, Card } from '@ui'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { ScreenSizeProvider, useScreenSize } from '@ui'
+import { AppShell } from './components/app-shell'
+import { StatusProvider } from './lib/status-context'
+import { HomePage } from './pages/home'
+import { SetupPage } from './pages/setup/setup-page'
+
+const router = createBrowserRouter([
+  {
+    element: <AppShell />,
+    children: [
+      { path: '/', element: <HomePage /> },
+      { path: '/setup', element: <SetupPage /> },
+    ],
+  },
+])
 
 export function App() {
+  const size = useScreenSize()
+
   return (
-    <main className="min-h-full bg-background text-text flex items-center justify-center p-4">
-      <Card className="p-6 max-w-md w-full flex flex-col gap-4">
-        <h1 className="text-2xl font-semibold">Monteverdi</h1>
-        <p className="text-text-muted">An orchestration tool for Claude.</p>
-        <Button scheme="primary" onClick={() => console.log('hello')}>Get started</Button>
-      </Card>
-    </main>
+    <ScreenSizeProvider size={size}>
+      <StatusProvider>
+        <RouterProvider router={router} />
+      </StatusProvider>
+    </ScreenSizeProvider>
   )
 }

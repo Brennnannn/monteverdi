@@ -16,7 +16,7 @@ interface ListCardProps {
  *
  * @example
  * ```tsx
- * <ListCard head={<h3 className="p-2 font-bold">Clients</h3>}>
+ * <ListCard head={<h3 className="p-2 font-bold">Projects</h3>}>
  *   <div className="px-3 py-2">Alice</div>
  *   <div className="px-3 py-2">Bob</div>
  * </ListCard>
