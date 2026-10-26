@@ -1,0 +1,104 @@
+/* Maps MDXEditor's theme variables onto the design tokens (applies to the editor root and its popups). */
+.note-editor {
+    --basePageBg: var(--background);
+    --baseBase: var(--background);
+    --baseBgSubtle: var(--surface);
+    --baseBg: var(--hover-1);
+    --baseBgHover: var(--hover-2);
+    --baseBgActive: var(--hover-3);
+    --baseLine: var(--trim);
+    --baseBorder: var(--trim);
+    --baseBorderHover: var(--hover-3);
+    --baseText: var(--text-muted);
+    --baseTextContrast: var(--text);
+    --font-body: inherit;
+}
+
+.note-editor.mdxeditor {
+    border: 1px solid var(--trim);
+    border-radius: 0.375rem;
+    background: var(--background);
+    overflow: hidden;
+}
+
+.note-editor.note-editor-readonly.mdxeditor {
+    --baseTextContrast: var(--text-muted);
+    background: var(--hover-1);
+}
+
+.note-editor:not(.note-editor-toolbar) .mdxeditor-toolbar {
+    display: none;
+}
+
+.note-editor .mdxeditor-toolbar {
+    border-radius: 0;
+    border-bottom: 1px solid var(--trim);
+}
+
+/* Card mode: grow with content up to a cap, then scroll. Full-height mode scrolls on its own. */
+.note-editor:not(.mdxeditor-full-height) .mdxeditor-root-contenteditable {
+    max-height: 16rem;
+    overflow-y: auto;
+}
+
+.note-prose {
+    min-height: 100px;
+    padding: 0.5rem;
+}
+
+.note-prose > :first-child {
+    margin-top: 0;
+}
+
+.note-prose p {
+    margin: 0.5em 0;
+}
+
+.note-prose h1,
+.note-prose h2,
+.note-prose h3,
+.note-prose h4,
+.note-prose h5,
+.note-prose h6 {
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 1em 0 0.5em;
+}
+
+.note-prose h1 { font-size: 1.5rem; }
+.note-prose h2 { font-size: 1.25rem; }
+.note-prose h3 { font-size: 1.125rem; }
+.note-prose h4,
+.note-prose h5,
+.note-prose h6 { font-size: 1rem; }
+
+.note-prose ul,
+.note-prose ol {
+    margin: 0.5em 0;
+    padding-left: 1.5rem;
+}
+
+.note-prose ul { list-style: disc; }
+.note-prose ol { list-style: decimal; }
+
+.note-prose li[role="checkbox"] {
+    list-style: none;
+}
+
+.note-prose blockquote {
+    margin: 0.5em 0;
+    padding-left: 0.75rem;
+    border-left: 3px solid var(--trim);
+    color: var(--text-muted);
+}
+
+.note-prose a {
+    color: var(--color-primary, #0353A4);
+    text-decoration: underline;
+}
+
+.note-prose hr {
+    margin: 1em 0;
+    border: 0;
+    border-top: 1px solid var(--trim);
+}
