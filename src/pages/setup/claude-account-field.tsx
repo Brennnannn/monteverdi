@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Loader2, Terminal } from 'lucide-react'
-import { Button } from '@ui'
+import { Button, FormField, useFormFull } from '@ui'
 import { api } from '../../lib/api'
 import { useStatus } from '../../lib/status-context'
-import { inputStyle, labelStyle, rowButtonStyle } from './field'
+import type { SetupForm } from './setup-form'
 
 const POLL_MS = 2000
 const POLL_LIMIT_MS = 5 * 60 * 1000
@@ -14,9 +14,13 @@ const POLL_LIMIT_MS = 5 * 60 * 1000
  */
 export function ClaudeAccountField() {
   const { status, refresh } = useStatus()
+  const { setFormField } = useFormFull<SetupForm>()
   const [connecting, setConnecting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const poll = useRef<number | null>(null)
+
+  const email = status?.auth?.loggedIn ? (status.auth.email ?? 'Connected') : ''
+  useEffect(() => setFormField('account', email), [email])
 
   const stopPolling = () => {
     if (poll.current !== null) window.clearInterval(poll.current)
@@ -42,31 +46,19 @@ export function ClaudeAccountField() {
     }, POLL_MS)
   }
 
-  const auth = status?.auth
-  const value = !status ? '' : !status.cli.path ? '' : auth?.loggedIn ? (auth.email ?? 'Connected') : ''
-  const placeholder = !status
-    ? 'Checking…'
-    : !status.cli.path
-      ? 'Claude CLI not found'
-      : connecting
-        ? 'Finish signing in in the console window…'
-        : 'Not connected'
+  const placeholder = !status?.cli.path
+    ? 'Claude CLI not found'
+    : connecting
+      ? 'Finish signing in in the console window…'
+      : 'Not connected'
 
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor="claude-account" className={labelStyle}>
-        Claude account
-      </label>
-      <div className="flex gap-2">
-        <input id="claude-account" readOnly value={value} placeholder={placeholder} className={inputStyle} />
-        <Button
-          scheme={auth?.loggedIn ? 'default' : 'primary'}
-          onClick={connect}
-          disabled={!status?.cli.path || connecting}
-          className={rowButtonStyle}
-        >
+      <div className="flex items-end gap-2">
+        <FormField<SetupForm> fieldName="account" label="Claude account" readOnly placeholder={placeholder} />
+        <Button scheme={email ? 'default' : 'primary'} onClick={connect} disabled={!status?.cli.path || connecting} className="gap-2">
           {connecting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Terminal className="h-4 w-4" />}
-          {auth?.loggedIn ? 'Reconnect' : 'Connect Claude'}
+          {email ? 'Reconnect' : 'Connect Claude'}
         </Button>
       </div>
       {error && <p className="text-sm text-error">{error}</p>}

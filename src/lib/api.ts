@@ -17,6 +17,6 @@ export const api = {
   login: () => request<{ started: boolean }>('POST', '/api/auth/login'),
   logout: () => request<Status>('POST', '/api/auth/logout'),
   setProject: (dir: string) => request<Status>('PUT', '/api/project', { dir }),
-  /** Opens the OS folder dialog; the returned status is unchanged if it was cancelled. */
-  pickProject: () => request<Status>('POST', '/api/project/pick'),
+  /** Opens the OS folder dialog; `dir` is `null` if it was cancelled. Doesn't save the choice. */
+  pickFolder: () => request<{ dir: string | null }>('POST', '/api/project/pick'),
 }

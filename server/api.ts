@@ -63,11 +63,8 @@ async function handle(req: IncomingMessage, res: ServerResponse) {
       return send(res, 200, await status())
     }
 
-    case 'POST /api/project/pick': {
-      const dir = await pickFolder(readConfig().projectDir)
-      if (dir) setProjectDir(dir)
-      return send(res, 200, await status())
-    }
+    case 'POST /api/project/pick':
+      return send(res, 200, { dir: await pickFolder(readConfig().projectDir) })
 
     default:
       return send(res, 404, { error: `No route for ${route}` })
